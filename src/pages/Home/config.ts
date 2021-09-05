@@ -7,31 +7,30 @@ export const textConfig = {
 
 export const glassesConfig = {
   initial: {
-      x: 2000,
-      y: 600
+    x: 2000,
+    y: 600,
   },
-  animate:{
-      x: 1250,
-      y: 600,
-      rotate: 30
+  animate: {
+    x: 1250,
+    y: 600,
+    rotate: 30,
   },
-  transition: { 
-      delay: 0.2
+  transition: {
+    delay: 0.2,
   },
-}
+};
 
 export const popcornConfig = {
   initial: {
-      x: -300,
-      y: 200
+    x: -300,
+    y: 200,
   },
-  animate:{
-      x: 200,
-      y: 200,
-      rotate: -30
+  animate: {
+    x: 200,
+    y: 200,
+    rotate: -30,
   },
-  transition: { 
-      delay: 0.1
+  transition: {
+    delay: 0.1,
   },
-}
-
+};

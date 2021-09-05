@@ -1,7 +1,7 @@
+import React from 'react';
 import { Navbar } from 'components/Navbar';
 import { Home } from 'pages/Home';
-import { MovieDetail, MovieList } from 'pages/Movie';
-import React from 'react';
+import { MovieList } from 'pages/Movie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
