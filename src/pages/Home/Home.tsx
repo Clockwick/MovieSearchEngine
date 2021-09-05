@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Background } from 'components/Background';
 import { HomeContent } from './HomeContent';
 import ImageAnimation from './components/ImageAnimation';
-import MOVIE_API_URL from 'constant';
+import MOVIE_API_URL from 'constant'; // 🤫
 
 // https://source.unsplash.com/random/1024x768
 // https://source.unsplash.com/random/1920x1080
