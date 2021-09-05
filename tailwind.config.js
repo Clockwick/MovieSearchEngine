@@ -795,6 +795,7 @@ module.exports = {
       max: 'max-content',
     }),
     zIndex: {
+      '-10': '-10',
       auto: 'auto',
       0: '0',
       10: '10',
