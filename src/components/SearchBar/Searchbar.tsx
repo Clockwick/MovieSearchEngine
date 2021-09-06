@@ -8,7 +8,7 @@ interface ISearchProps {
 export const Searchbar: React.FC<ISearchProps> = ({ handleFocus, searchCallBack }): JSX.Element => {
   const [value, setValue] = useState('');
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     searchCallBack(value);
   };

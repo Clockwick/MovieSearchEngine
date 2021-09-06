@@ -4,7 +4,7 @@ import { Home } from 'pages/Home';
 import { MovieList } from 'pages/Movie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-function App() {
+const App = (): JSX.Element => {
   return (
     <div>
       <Navbar />

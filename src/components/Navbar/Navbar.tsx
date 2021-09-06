@@ -1,6 +1,6 @@
 import React from 'react';
 import config from './config';
-export const Navbar: React.FC = (props): JSX.Element => {
+export const Navbar: React.FC = (): JSX.Element => {
   const links = config.map((item) => {
     const { id, name, href, icon } = item;
     return (

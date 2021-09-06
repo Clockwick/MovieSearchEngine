@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, FormEvent } from 'react';
+import React, { FocusEventHandler } from 'react';
 import { textConfig } from './config';
 import { Searchbar } from 'components/SearchBar';
 import { Layout } from './components/Layout';

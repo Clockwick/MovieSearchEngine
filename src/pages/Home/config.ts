@@ -18,6 +18,7 @@ export const glassesConfig = {
   transition: {
     delay: 0.2,
   },
+  alt: 'Mr.3D'
 };
 
 export const popcornConfig = {
@@ -33,4 +34,5 @@ export const popcornConfig = {
   transition: {
     delay: 0.1,
   },
+  alt: 'Mr.Popcorn'
 };

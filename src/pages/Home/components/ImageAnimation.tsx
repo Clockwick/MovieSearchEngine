@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import popcornImg from 'images/popcorn.png';
 import _3dglassesImg from 'images/3dglasses.png';
 
-const ImageAnimation: React.FC = (props) => {
+const ImageAnimation: React.FC = () => {
   return (
     <>
       <motion.img
@@ -13,7 +13,7 @@ const ImageAnimation: React.FC = (props) => {
         animate={popcornConfig.animate}
         transition={popcornConfig.transition}
         src={popcornImg}
-        alt="Mr.Popcorn"
+        alt={popcornConfig.alt}
         width="200"
       />
       <motion.img
@@ -22,7 +22,7 @@ const ImageAnimation: React.FC = (props) => {
         animate={glassesConfig.animate}
         transition={glassesConfig.transition}
         src={_3dglassesImg}
-        alt="Mr.3D"
+        alt={glassesConfig.alt}
         width="150"
       />
     </>
