@@ -19,6 +19,7 @@ export const glassesConfig = {
     delay: 0.2,
   },
   alt: 'Mr.3D',
+  width: 150,
 };
 
 export const popcornConfig = {
@@ -35,4 +36,5 @@ export const popcornConfig = {
     delay: 0.1,
   },
   alt: 'Mr.Popcorn',
+  width: 200,
 };

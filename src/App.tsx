@@ -3,10 +3,10 @@ import { Navbar } from 'components/Navbar';
 import { Home } from 'pages/Home';
 import { MovieList } from 'pages/Movie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import { WindowProvider } from 'contexts/WindowContext';
 const App = (): JSX.Element => {
   return (
-    <div>
+    <WindowProvider>
       <Navbar />
       <Router>
         <Switch>
@@ -14,7 +14,7 @@ const App = (): JSX.Element => {
           <Route path="/movies" component={MovieList} />
         </Switch>
       </Router>
-    </div>
+    </WindowProvider>
   );
 };
 
