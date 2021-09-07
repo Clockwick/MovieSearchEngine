@@ -5,7 +5,7 @@ interface ILayoutProps {
 }
 
 const Layout: React.FC<ILayoutProps> = ({ children }) => {
-  return <div className="flex flex-col ml-20">{children}</div>;
+  return <div className="flex flex-col w-screen">{children}</div>;
 };
 
 export default Layout;
