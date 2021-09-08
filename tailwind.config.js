@@ -448,6 +448,10 @@ module.exports = {
       '-2/4': '-50%',
       '-3/4': '-75%',
       '-full': '-100%',
+      // Custom
+      'custom-x-pgnumber': '9.7%',
+      'custom-y-pgnumber': '43.7%',
+      'custom-x-image': '16%',
     }),
     keyframes: {
       spin: {

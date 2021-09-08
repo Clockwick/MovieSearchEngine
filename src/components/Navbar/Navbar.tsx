@@ -11,7 +11,7 @@ export const Navbar: React.FC = (): JSX.Element => {
     );
   });
   return (
-    <nav className="fixed bg-gray-800 bg-opacity-50 z-50">
+    <nav className="fixed z-50 bg-gray-800 bg-opacity-50">
       <div className="mx-auto px-2 w-screen">
         <div className="relative flex items-center justify-between h-20">
           <div className="flex items-stretch justify-start ml-16">

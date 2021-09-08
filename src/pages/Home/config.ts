@@ -11,7 +11,7 @@ export const glassesConfig = {
     y: 600,
   },
   animate: {
-    x: 1250,
+    x: 1350,
     y: 600,
     rotate: 30,
   },

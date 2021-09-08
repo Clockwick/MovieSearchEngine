@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createRef, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { SearchResult } from 'interfaces/SearchResultInterface';
 import { Layout } from 'components/Layout';
 import { IMAGE_URL } from 'constant';
@@ -10,44 +10,110 @@ interface IMovieListProps {
 }
 
 export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element => {
-    const {width} = useViewport()
-    const {offsetY} = useParallaxScroll()
-    const scrollRef = useRef<any>(null)
-    const [fixedPosition, setFixedPosition] = useState(false)
+  const { width } = useViewport();
+  const { offsetY } = useParallaxScroll();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [fixedPosition, setFixedPosition] = useState(false);
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(0 as number);
+  const [nextMovieIndex, setNextMovieIndex] = useState(currentMovieIndex + 1);
+  const arrLength = movies.length;
 
-  const moviesComponent = movies.map((movie) => {
-      const movieImg = IMAGE_URL + movie.poster_path
+  const elRefs = useRef<Array<RefObject<HTMLDivElement>>>([]);
 
-      useEffect(() => {
-        if (offsetY >= scrollRef.current.offsetTop - width * 0.2) {
-            setFixedPosition(true)
-        } 
-        else {
-            setFixedPosition(false)
+  const [y, setY] = useState(window.scrollY);
+
+  if (elRefs.current.length !== arrLength) {
+    // add or remove refs
+    elRefs.current = Array(arrLength)
+      .fill(undefined)
+      .map((_, i) => elRefs.current[i] || createRef());
+  }
+
+  useEffect(() => {
+    if (scrollRef.current != null) {
+      if (offsetY >= scrollRef.current.offsetTop - width * 0.2) {
+        setFixedPosition(true);
+      } else {
+        setFixedPosition(false);
+      }
+    }
+  });
+
+  const handleNavigation = useCallback(
+    (e) => {
+      const window = e.currentTarget;
+      if (y > window.scrollY) {
+        // Scroll up
+        if (
+          currentMovieIndex > 0 &&
+          offsetY <= elRefs.current[currentMovieIndex].current!.offsetTop - width * 0.2
+        ) {
+          setCurrentMovieIndex((prev) => prev - 1);
+          setNextMovieIndex((prev) => prev - 1);
         }
-      })
+      } else if (y < window.scrollY) {
+        // Scroll down
+        if (
+          nextMovieIndex < arrLength - 1 &&
+          offsetY >= elRefs.current[currentMovieIndex].current!.offsetTop - width * 0.2 &&
+          offsetY <= elRefs.current[nextMovieIndex].current!.offsetTop
+        ) {
+          setCurrentMovieIndex((prev) => prev + 1);
+          setNextMovieIndex((prev) => prev + 1);
+        }
+      }
+      setY(window.scrollY);
+    },
+    [y],
+  );
 
+  useEffect(() => {
+    setY(window.scrollY);
+    window.addEventListener('scroll', handleNavigation);
+
+    return () => {
+      window.removeEventListener('scroll', handleNavigation);
+    };
+  }, [handleNavigation]);
+
+  const moviesComponent = movies.map((movie, i) => {
     return (
-            <div key={movie.id}>
-                <div className="my-3 text-sm text-white">{movie.overview}</div>
-                <div className="mb-3 font-bold text-4xl text-white">{movie.original_title}</div>
-            </div>
+      <div key={movie.id} className="my-24" ref={elRefs.current[i]}>
+        <div className="my-3 text-white text-sm">{movie.overview}</div>
+        <div className="mb-3 text-white text-4xl font-bold">{movie.original_title}</div>
+      </div>
     );
   });
 
   return (
     <Layout>
-        <div className="flex relative bg-blue-500" ref={scrollRef}>
-            <div className="mt-10 h-full w-1/5 relative bg-red-400">
-                {fixedPosition ? <div className="fixed top-1/2 left-0 w-30 text-white z-20" >01 / 08</div> : <div className="h-full flex justify-center items-center text-white" >01 / 08</div>}
-                
+      <div className="flex" ref={scrollRef}>
+        <div className="mt-32 w-1/5 h-full">
+          {fixedPosition ? (
+            <div className="w-30 fixed z-20 left-custom-x-pgnumber top-1/2">
+              {currentMovieIndex + 1} / {arrLength}
             </div>
-            <div className="w-2/5">
-                <div className="flex flex-col w-full">
-                    {moviesComponent}
-                </div>
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              {currentMovieIndex + 1} / {arrLength}
             </div>
+          )}
         </div>
+        <div className="w-2/5">
+          <div className="flex flex-col w-full">{moviesComponent}</div>
+        </div>
+        <div className="flex items-start justify-center mt-24 w-2/5">
+          {fixedPosition ? (
+            <div className="w-30 fixed z-20 right-custom-x-image top-1/2">
+              <img src={IMAGE_URL + movies[currentMovieIndex].poster_path} />
+            </div>
+          ) : (
+            <div>
+              <img src={IMAGE_URL + movies[currentMovieIndex].poster_path} />
+            </div>
+          )}
+        </div>
+      </div>
     </Layout>
-      );
+  );
 };

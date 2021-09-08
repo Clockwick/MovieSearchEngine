@@ -5,5 +5,5 @@ interface ILayoutProps {
 }
 
 export const Layout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
-  return <div className="px-6 py-4">{children}</div>;
+  return <div className="px-6 py-4 text-white">{children}</div>;
 };
