@@ -1,15 +1,21 @@
-import React, { createRef, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, { createRef, RefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SearchResult } from 'interfaces/SearchResultInterface';
 import { Layout } from 'components/Layout';
 import { IMAGE_URL } from 'constant';
 import useViewport from 'hooks/useViewport';
 import useParallaxScroll from 'hooks/useParallaxScroll';
+import background_1 from 'images/background1.jpg';
+import background_2 from 'images/background2.jpg';
+import background_3 from 'images/background3.jpeg';
+import default_background from 'images/test.jpeg';
+import { BackgroundContext } from 'contexts/BackgroundContext';
 
 interface IMovieListProps {
   movies: Array<SearchResult>;
 }
 
 export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element => {
+  const { setBackground } = useContext(BackgroundContext)
   const { width } = useViewport();
   const { offsetY } = useParallaxScroll();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -75,6 +81,20 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
       window.removeEventListener('scroll', handleNavigation);
     };
   }, [handleNavigation]);
+
+  useEffect(() => {
+    switch (currentMovieIndex) {
+        case 0:
+        setBackground(background_1)
+        break;
+        case 1:
+        setBackground(background_2)
+        break;
+      default:
+        setBackground(default_background)
+        break;
+    }
+  }, [currentMovieIndex])
 
   const moviesComponent = movies.map((movie, i) => {
     return (
