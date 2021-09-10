@@ -1,0 +1,29 @@
+#movieList {
+    animation: movie-animate-back 1s;
+    margin-left: 0px;
+    width: 100%;
+}
+
+#movieList:hover {
+    animation: movie-animate 1s;
+    margin-left: 20px;
+    width: 100%;
+}
+
+@keyframes movie-animate {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: 20px;
+    }
+}
+
+@keyframes movie-animate-back {
+    from {
+        margin-left: 20px;
+    }
+    to {
+        margin-left: 0;
+    }
+}

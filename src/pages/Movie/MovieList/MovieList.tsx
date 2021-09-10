@@ -16,6 +16,7 @@ import background_1 from 'images/background1.jpg';
 import background_2 from 'images/background2.jpg';
 import default_background from 'images/test.jpeg';
 import { BackgroundContext } from 'contexts/BackgroundContext';
+import './MovieList.css';
 
 interface IMovieListProps {
   movies: Array<SearchResult>;
@@ -109,12 +110,30 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
   }, [currentMovieIndex]);
 
   const moviesComponent = movies.map((movie, i) => {
-    return (
-      <div key={movie.id} className="flex flex-col justify-center mb-32 h-96">
-        <div className="mb-3 text-white text-4xl font-bold" ref={elRefs.current[i]}>{movie.original_title}</div>
-        <div className="my-3 text-white text-sm">
-          {movie.overview}
+    if (currentMovieIndex !== i) {
+      return (
+        <div
+          key={movie.id}
+          className="flex flex-col justify-center mb-32 h-96 opacity-50 cursor-pointer"
+          id="movieList"
+        >
+          <div className="mb-3 text-white text-4xl font-bold" ref={elRefs.current[i]}>
+            {movie.original_title}
+          </div>
+          <div className="my-3 text-white text-sm">{movie.overview}</div>
         </div>
+      );
+    }
+    return (
+      <div
+        key={movie.id}
+        className="flex flex-col justify-center mb-32 h-96 cursor-pointer"
+        id="movieList"
+      >
+        <div className="mb-3 text-white text-4xl font-bold" ref={elRefs.current[i]}>
+          {movie.original_title}
+        </div>
+        <div className="my-3 text-white text-sm">{movie.overview}</div>
       </div>
     );
   });
@@ -139,11 +158,19 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
         <div className="flex items-start justify-center w-2/5 h-full">
           {fixedPosition ? (
             <div className="fixed bottom-1/4">
-              <img src={IMAGE_URL + movies[currentMovieIndex].poster_path} width="300" />
+              <img
+                src={IMAGE_URL + movies[currentMovieIndex].poster_path}
+                width="300"
+                className="rounded"
+              />
             </div>
           ) : (
             <div>
-              <img src={IMAGE_URL + movies[currentMovieIndex].poster_path} width="300" />
+              <img
+                src={IMAGE_URL + movies[currentMovieIndex].poster_path}
+                width="300"
+                className="rounded"
+              />
             </div>
           )}
         </div>

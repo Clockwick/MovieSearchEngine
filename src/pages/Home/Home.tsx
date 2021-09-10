@@ -4,7 +4,7 @@ import { Background } from 'components/Background';
 import { HomeContent } from './HomeContent';
 import ImageAnimation from './components/ImageAnimation';
 import { MOVIE_API_URL } from 'constant'; // 🤫
-import { MovieList } from 'pages/Movie';
+import { MovieList } from 'pages/Movie/MovieList';
 import { SearchResult } from 'interfaces/SearchResultInterface';
 import { useLocation } from 'react-router';
 
