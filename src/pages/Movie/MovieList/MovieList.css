@@ -10,6 +10,23 @@
     width: 100%;
 }
 
+.movieImage {
+    animation: movie-image-animate 1s;
+}
+
+
+
+@keyframes movie-image-animate {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
 @keyframes movie-animate {
     from {
         margin-left: 0;

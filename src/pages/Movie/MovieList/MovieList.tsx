@@ -33,16 +33,24 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
   const [nextMovieIndex, setNextMovieIndex] = useState(currentMovieIndex + 1);
   const arrLength = movies.length;
 
-  const elRefs = useRef<Array<RefObject<HTMLDivElement>>>([]);
+  const movieRefs = useRef<Array<RefObject<HTMLDivElement>>>([]);
 
   const [y, setY] = useState(offsetY);
 
-  if (elRefs.current.length !== arrLength) {
+  if (movieRefs.current.length !== arrLength) {
     // add or remove refs
-    elRefs.current = Array(arrLength)
+    movieRefs.current = Array(arrLength)
       .fill(undefined)
-      .map((_, i) => elRefs.current[i] || createRef());
+      .map((_, i) => movieRefs.current[i] || createRef());
   }
+
+  useEffect(() => {
+    const imageElement = document.getElementById('movieImage')!;
+    imageElement.classList.add('movieImage');
+    imageElement.addEventListener('animationend', () => {
+      imageElement.classList.remove('movieImage');
+    });
+  }, [currentMovieIndex]);
 
   useEffect(() => {
     if (scrollRef.current != null) {
@@ -61,7 +69,7 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
         // Scroll up
         if (
           currentMovieIndex > 0 &&
-          offsetY <= elRefs.current[prevMovieIndex].current!.offsetTop - width * 0.2
+          offsetY <= movieRefs.current[prevMovieIndex].current!.offsetTop - width * 0.2
         ) {
           setPrevMovieIndex((prev) => prev - 1);
           setCurrentMovieIndex((prev) => prev - 1);
@@ -71,8 +79,8 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
         // Scroll down
         if (
           nextMovieIndex < arrLength &&
-          offsetY >= elRefs.current[currentMovieIndex].current!.offsetTop + 100 &&
-          offsetY <= elRefs.current[nextMovieIndex].current!.offsetTop
+          offsetY >= movieRefs.current[currentMovieIndex].current!.offsetTop + 100 &&
+          offsetY <= movieRefs.current[nextMovieIndex].current!.offsetTop
         ) {
           setPrevMovieIndex((prev) => prev + 1);
           setCurrentMovieIndex((prev) => prev + 1);
@@ -117,7 +125,7 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
           className="flex flex-col justify-center mb-32 h-96 opacity-50 cursor-pointer"
           id="movieList"
         >
-          <div className="mb-3 text-white text-4xl font-bold" ref={elRefs.current[i]}>
+          <div className="mb-3 text-white text-4xl font-bold" ref={movieRefs.current[i]}>
             {movie.original_title}
           </div>
           <div className="my-3 text-white text-sm">{movie.overview}</div>
@@ -130,7 +138,7 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
         className="flex flex-col justify-center mb-32 h-96 cursor-pointer"
         id="movieList"
       >
-        <div className="mb-3 text-white text-4xl font-bold" ref={elRefs.current[i]}>
+        <div className="mb-3 text-white text-4xl font-bold" ref={movieRefs.current[i]}>
           {movie.original_title}
         </div>
         <div className="my-3 text-white text-sm">{movie.overview}</div>
@@ -162,6 +170,7 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
                 src={IMAGE_URL + movies[currentMovieIndex].poster_path}
                 width="300"
                 className="rounded"
+                id="movieImage"
               />
             </div>
           ) : (
@@ -170,6 +179,7 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
                 src={IMAGE_URL + movies[currentMovieIndex].poster_path}
                 width="300"
                 className="rounded"
+                id="movieImage"
               />
             </div>
           )}
