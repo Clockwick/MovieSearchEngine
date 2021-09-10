@@ -14,7 +14,6 @@ export const HomeContent: React.FC<IHomeContentProps> = ({
 }): JSX.Element => {
   const { flowTitle, mainTitle, subTitle } = textConfig;
   const flowTitleUpperCase = flowTitle.toUpperCase();
-
   return (
     <div className="flex items-center justify-center w-screen h-screen">
       <Layout>

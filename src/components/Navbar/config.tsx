@@ -11,7 +11,7 @@ const config = [
   {
     id: 2,
     name: 'Search',
-    href: '/',
+    href: '#search',
     icon: <FaSearch className="text-white" />,
   },
 ];

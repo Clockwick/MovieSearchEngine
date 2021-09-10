@@ -6,14 +6,18 @@ import ImageAnimation from './components/ImageAnimation';
 import { MOVIE_API_URL } from 'constant'; // 🤫
 import { MovieList } from 'pages/Movie';
 import { SearchResult } from 'interfaces/SearchResultInterface';
+import { useLocation } from 'react-router';
 
 // https://source.unsplash.com/random/1024x768
 // https://source.unsplash.com/random/1920x1080
 
 export const Home: React.FC = (): JSX.Element => {
   const [isFocus, setIsFocus] = useState(false);
+  const [preventLocationLoop, setPreventLocationLoop] = useState(false);
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
   const [movieList, setMovieList] = useState([] as Array<SearchResult>);
+
+  const location = useLocation();
 
   const handleFocus = () => {
     setIsFocus(() => true);
@@ -30,7 +34,8 @@ export const Home: React.FC = (): JSX.Element => {
       .then((res) => res.json())
       .then((response) => {
         const results: Array<SearchResult> = response.results;
-        const currSearchResult: Array<SearchResult> = results.map((result) => {
+        const filterResult = results.filter((result, index) => index < 3);
+        const currSearchResult: Array<SearchResult> = filterResult.map((result) => {
           const {
             id,
             original_title,
@@ -59,6 +64,11 @@ export const Home: React.FC = (): JSX.Element => {
         setIsSearchCompleted(true);
       });
   };
+
+  if (location.hash === '#search' && !preventLocationLoop) {
+    setPreventLocationLoop(true);
+    handleFocus();
+  }
 
   return (
     <div>
