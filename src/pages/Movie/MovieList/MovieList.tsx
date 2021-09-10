@@ -7,22 +7,20 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SearchResult } from 'interfaces/SearchResultInterface';
+import { SearchResult, SearchResultBackground } from 'interfaces/SearchResultInterface';
 import { Layout } from 'components/Layout';
 import { IMAGE_URL } from 'constant';
 import useViewport from 'hooks/useViewport';
 import useParallaxScroll from 'hooks/useParallaxScroll';
-import background_1 from 'images/background1.jpg';
-import background_2 from 'images/background2.jpg';
-import default_background from 'images/test.jpeg';
 import { BackgroundContext } from 'contexts/BackgroundContext';
 import './MovieList.css';
 
 interface IMovieListProps {
   movies: Array<SearchResult>;
+  movies_background: Array<SearchResultBackground>
 }
 
-export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element => {
+export const MovieList: React.FC<IMovieListProps> = ({ movies, movies_background }): JSX.Element => {
   const { setBackground } = useContext(BackgroundContext);
   const { width } = useViewport();
   const { offsetY } = useParallaxScroll();
@@ -105,13 +103,13 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies }): JSX.Element =>
     if (fixedPosition) {
       switch (currentMovieIndex) {
         case 0:
-          setBackground(background_1);
+          setBackground(movies_background[0].urls.full);
           break;
         case 1:
-          setBackground(background_2);
+          setBackground(movies_background[1].urls.full);
           break;
-        default:
-          setBackground(default_background);
+        case 2:
+          setBackground(movies_background[2].urls.full);
           break;
       }
     }

@@ -9,3 +9,11 @@ export interface SearchResult {
   release_date: Date;
   poster_path: string;
 }
+
+
+export interface SearchResultBackground {
+  id: string,
+  urls: {
+    full: string
+  }
+}

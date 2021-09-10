@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet';
 import { Background } from 'components/Background';
 import { HomeContent } from './HomeContent';
 import ImageAnimation from './components/ImageAnimation';
-import { MOVIE_API_URL } from 'constant'; // 🤫
+import { MOVIE_API_URL, UNSPLASH_API_URL } from 'constant'; // 🤫
 import { MovieList } from 'pages/Movie/MovieList';
-import { SearchResult } from 'interfaces/SearchResultInterface';
+import { SearchResult, SearchResultBackground } from 'interfaces/SearchResultInterface';
 import { useLocation } from 'react-router';
 
 // https://source.unsplash.com/random/1024x768
@@ -16,6 +16,7 @@ export const Home: React.FC = (): JSX.Element => {
   const [preventLocationLoop, setPreventLocationLoop] = useState(false);
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
   const [movieList, setMovieList] = useState([] as Array<SearchResult>);
+  const [movieBackgroundList, setMovieBackgroundList] = useState([] as Array<SearchResultBackground>)
   const [isReloading, setIsReloading] = useState(false);
   const [searchError, setSearchError] = useState(false);
 
@@ -26,8 +27,11 @@ export const Home: React.FC = (): JSX.Element => {
   };
 
   const searchCallBack = (value: string): void => {
-    const requestURL = MOVIE_API_URL + `&query=${encodeURI(value)}`;
     setIsReloading(true);
+
+   
+    // Movies list
+    const requestURL = MOVIE_API_URL + `&query=${encodeURI(value)}`;
     fetch(requestURL, {
       method: 'GET',
       headers: {
@@ -70,8 +74,42 @@ export const Home: React.FC = (): JSX.Element => {
           };
         });
         setMovieList(currSearchResult);
-        setIsSearchCompleted(true);
       });
+
+       // Movies Background
+      const requestBackgroundURL = UNSPLASH_API_URL + `&query=${encodeURI(value)}`;
+      fetch(requestBackgroundURL, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.total === 0) {
+            setSearchError(true)
+            return
+          }
+          setIsReloading(false);
+          setSearchError(false);
+          const results: Array<SearchResultBackground> = response.results;
+          const filterResult = results.filter((result, index) => index < 3);
+          const currSearchResult: Array<SearchResultBackground> = filterResult.map((result) => {
+            const {
+              id,
+              urls
+            } = result;
+            const fullUrls = {
+              full: urls.full
+            }
+            return {
+              id,
+              urls: fullUrls
+            };
+          });
+          setMovieBackgroundList(currSearchResult)
+          setIsSearchCompleted(true);
+        });
   };
 
   if (location.hash === '#search' && !preventLocationLoop) {
@@ -92,7 +130,7 @@ export const Home: React.FC = (): JSX.Element => {
         error={searchError}
         isReloading={isReloading}
       />
-      {isSearchCompleted && !searchError ? <MovieList movies={movieList} /> : null}
+      {isSearchCompleted && !searchError ? <MovieList movies_background={movieBackgroundList} movies={movieList} /> : null}
     </div>
   );
 };
