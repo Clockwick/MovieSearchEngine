@@ -10,10 +10,9 @@ export interface SearchResult {
   poster_path: string;
 }
 
-
 export interface SearchResultBackground {
-  id: string,
+  id: string;
   urls: {
-    full: string
-  }
+    full: string;
+  };
 }

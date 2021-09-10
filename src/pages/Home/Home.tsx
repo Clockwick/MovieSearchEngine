@@ -16,7 +16,9 @@ export const Home: React.FC = (): JSX.Element => {
   const [preventLocationLoop, setPreventLocationLoop] = useState(false);
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
   const [movieList, setMovieList] = useState([] as Array<SearchResult>);
-  const [movieBackgroundList, setMovieBackgroundList] = useState([] as Array<SearchResultBackground>)
+  const [movieBackgroundList, setMovieBackgroundList] = useState(
+    [] as Array<SearchResultBackground>,
+  );
   const [isReloading, setIsReloading] = useState(false);
   const [searchError, setSearchError] = useState(false);
 
@@ -29,7 +31,6 @@ export const Home: React.FC = (): JSX.Element => {
   const searchCallBack = (value: string): void => {
     setIsReloading(true);
 
-   
     // Movies list
     const requestURL = MOVIE_API_URL + `&query=${encodeURI(value)}`;
     fetch(requestURL, {
@@ -76,40 +77,37 @@ export const Home: React.FC = (): JSX.Element => {
         setMovieList(currSearchResult);
       });
 
-       // Movies Background
-      const requestBackgroundURL = UNSPLASH_API_URL + `&query=${encodeURI(value)}`;
-      fetch(requestBackgroundURL, {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          if (response.total === 0) {
-            setSearchError(true)
-            return
-          }
-          setIsReloading(false);
-          setSearchError(false);
-          const results: Array<SearchResultBackground> = response.results;
-          const filterResult = results.filter((result, index) => index < 3);
-          const currSearchResult: Array<SearchResultBackground> = filterResult.map((result) => {
-            const {
-              id,
-              urls
-            } = result;
-            const fullUrls = {
-              full: urls.full
-            }
-            return {
-              id,
-              urls: fullUrls
-            };
-          });
-          setMovieBackgroundList(currSearchResult)
-          setIsSearchCompleted(true);
+    // Movies Background
+    const requestBackgroundURL = UNSPLASH_API_URL + `&query=${encodeURI(value)}`;
+    fetch(requestBackgroundURL, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.total === 0) {
+          setSearchError(true);
+          return;
+        }
+        setIsReloading(false);
+        setSearchError(false);
+        const results: Array<SearchResultBackground> = response.results;
+        const filterResult = results.filter((result, index) => index < 3);
+        const currSearchResult: Array<SearchResultBackground> = filterResult.map((result) => {
+          const { id, urls } = result;
+          const fullUrls = {
+            full: urls.full,
+          };
+          return {
+            id,
+            urls: fullUrls,
+          };
         });
+        setMovieBackgroundList(currSearchResult);
+        setIsSearchCompleted(true);
+      });
   };
 
   if (location.hash === '#search' && !preventLocationLoop) {
@@ -130,7 +128,9 @@ export const Home: React.FC = (): JSX.Element => {
         error={searchError}
         isReloading={isReloading}
       />
-      {isSearchCompleted && !searchError ? <MovieList movies_background={movieBackgroundList} movies={movieList} /> : null}
+      {isSearchCompleted && !searchError ? (
+        <MovieList movies_background={movieBackgroundList} movies={movieList} />
+      ) : null}
     </div>
   );
 };

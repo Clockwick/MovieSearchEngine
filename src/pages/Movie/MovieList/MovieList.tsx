@@ -17,10 +17,14 @@ import './MovieList.css';
 
 interface IMovieListProps {
   movies: Array<SearchResult>;
-  movies_background: Array<SearchResultBackground>
+  movies_background: Array<SearchResultBackground>;
 }
 
-export const MovieList: React.FC<IMovieListProps> = ({ movies, movies_background }): JSX.Element => {
+export const MovieList: React.FC<IMovieListProps> = ({
+  movies,
+  movies_background,
+}): JSX.Element => {
+  console.log('Movies : ', movies);
   const { setBackground } = useContext(BackgroundContext);
   const { width } = useViewport();
   const { offsetY } = useParallaxScroll();
@@ -100,18 +104,16 @@ export const MovieList: React.FC<IMovieListProps> = ({ movies, movies_background
   }, [handleNavigation]);
 
   useEffect(() => {
-    if (fixedPosition) {
-      switch (currentMovieIndex) {
-        case 0:
-          setBackground(movies_background[0].urls.full);
-          break;
-        case 1:
-          setBackground(movies_background[1].urls.full);
-          break;
-        case 2:
-          setBackground(movies_background[2].urls.full);
-          break;
-      }
+    switch (currentMovieIndex) {
+      case 0:
+        setBackground(movies_background[0].urls.full);
+        break;
+      case 1:
+        setBackground(movies_background[1].urls.full);
+        break;
+      case 2:
+        setBackground(movies_background[2].urls.full);
+        break;
     }
   }, [currentMovieIndex]);
 
