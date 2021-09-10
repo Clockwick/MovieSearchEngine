@@ -16,6 +16,8 @@ export const Home: React.FC = (): JSX.Element => {
   const [preventLocationLoop, setPreventLocationLoop] = useState(false);
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
   const [movieList, setMovieList] = useState([] as Array<SearchResult>);
+  const [isReloading, setIsReloading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
 
   const location = useLocation();
 
@@ -25,6 +27,7 @@ export const Home: React.FC = (): JSX.Element => {
 
   const searchCallBack = (value: string): void => {
     const requestURL = MOVIE_API_URL + `&query=${encodeURI(value)}`;
+    setIsReloading(true);
     fetch(requestURL, {
       method: 'GET',
       headers: {
@@ -33,6 +36,13 @@ export const Home: React.FC = (): JSX.Element => {
     })
       .then((res) => res.json())
       .then((response) => {
+        if (response.total_results === 0) {
+          setIsReloading(false);
+          setSearchError(true);
+          return;
+        }
+        setIsReloading(false);
+        setSearchError(false);
         const results: Array<SearchResult> = response.results;
         const filterResult = results.filter((result, index) => index < 3);
         const currSearchResult: Array<SearchResult> = filterResult.map((result) => {
@@ -59,7 +69,6 @@ export const Home: React.FC = (): JSX.Element => {
             poster_path,
           };
         });
-        // console.log("Current search result : ", currSearchResult)
         setMovieList(currSearchResult);
         setIsSearchCompleted(true);
       });
@@ -77,8 +86,13 @@ export const Home: React.FC = (): JSX.Element => {
       </Helmet>
       {isFocus ? <ImageAnimation /> : null}
       <Background />
-      <HomeContent searchCallBack={searchCallBack} handleFocus={handleFocus} />
-      {isSearchCompleted ? <MovieList movies={movieList} /> : null}
+      <HomeContent
+        searchCallBack={searchCallBack}
+        handleFocus={handleFocus}
+        error={searchError}
+        isReloading={isReloading}
+      />
+      {isSearchCompleted && !searchError ? <MovieList movies={movieList} /> : null}
     </div>
   );
 };

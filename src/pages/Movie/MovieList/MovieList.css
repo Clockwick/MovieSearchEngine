@@ -11,7 +11,7 @@
 }
 
 .movieImage {
-    animation: movie-image-animate 1s;
+    animation: movie-image-animate 0.5s;
 }
 
 
