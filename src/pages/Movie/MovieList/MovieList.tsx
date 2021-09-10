@@ -24,7 +24,6 @@ export const MovieList: React.FC<IMovieListProps> = ({
   movies,
   movies_background,
 }): JSX.Element => {
-  console.log('Movies : ', movies);
   const { setBackground } = useContext(BackgroundContext);
   const { width } = useViewport();
   const { offsetY } = useParallaxScroll();
