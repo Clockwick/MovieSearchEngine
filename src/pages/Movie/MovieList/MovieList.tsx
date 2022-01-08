@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { SearchResult, SearchResultBackground } from 'interfaces/SearchResultInterface';
 import { Layout } from 'components/Layout';
-import { IMAGE_URL } from 'constant';
 import useViewport from 'hooks/useViewport';
 import useParallaxScroll from 'hooks/useParallaxScroll';
 import { BackgroundContext } from 'contexts/BackgroundContext';
@@ -166,7 +165,7 @@ export const MovieList: React.FC<IMovieListProps> = ({
           {fixedPosition ? (
             <div className="fixed bottom-1/4">
               <img
-                src={IMAGE_URL + movies[currentMovieIndex].poster_path}
+                src={process.env.REACT_IMAGE_URL + movies[currentMovieIndex].poster_path}
                 width="300"
                 className="rounded"
                 id="movieImage"
@@ -175,7 +174,7 @@ export const MovieList: React.FC<IMovieListProps> = ({
           ) : (
             <div>
               <img
-                src={IMAGE_URL + movies[currentMovieIndex].poster_path}
+                src={process.env.REACT_IMAGE_URL + movies[currentMovieIndex].poster_path}
                 width="300"
                 className="rounded"
                 id="movieImage"

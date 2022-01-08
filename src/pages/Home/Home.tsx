@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { Background } from 'components/Background';
 import { HomeContent } from './HomeContent';
 import ImageAnimation from './components/ImageAnimation';
-import { MOVIE_API_URL, UNSPLASH_API_URL } from 'constant'; // 🤫
 import { MovieList } from 'pages/Movie/MovieList';
 import { SearchResult, SearchResultBackground } from 'interfaces/SearchResultInterface';
 import { useLocation } from 'react-router';
@@ -32,7 +31,7 @@ export const Home: React.FC = (): JSX.Element => {
     setIsReloading(true);
 
     // Movies list
-    const requestURL = MOVIE_API_URL + `&query=${encodeURI(value)}`;
+    const requestURL = process.env.REACT_MOVIE_API_URL + `&query=${encodeURI(value)}`;
     fetch(requestURL, {
       method: 'GET',
       headers: {
@@ -78,7 +77,7 @@ export const Home: React.FC = (): JSX.Element => {
       });
 
     // Movies Background
-    const requestBackgroundURL = UNSPLASH_API_URL + `&query=${encodeURI(value)}`;
+    const requestBackgroundURL = process.env.REACT_UNSPLASH_API_URL + `&query=${encodeURI(value)}`;
     fetch(requestBackgroundURL, {
       method: 'GET',
       headers: {
